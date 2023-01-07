@@ -112,22 +112,27 @@ class Ui_UserWindow(object):
         self.retranslateUi(UserWindow)
         QtCore.QMetaObject.connectSlotsByName(UserWindow)
 
+
         self.MainWindow = None
         self.ui = None
 
         self.button_functions_U()
+        self._translate = None
+        self.ph_path = None
+
+        self.client = None
 
     def retranslateUi(self, UserWindow):
-        _translate = QtCore.QCoreApplication.translate
-        UserWindow.setWindowTitle(_translate("UserWindow", "Form"))
-        self.pushButton.setText(_translate("UserWindow", "СОЕДИНЕНИЕ С СЕРВЕРОМ"))
-        self.pushButton_2.setText(_translate("UserWindow", "ОТПРАВИТЬ ЗАПРОС"))
-        self.pushButton_3.setText(_translate("UserWindow", "Выбарть файл"))
-        self.label.setText(_translate("UserWindow", "-------------  Файл не выбран  -------------"))
-        self.label_3.setText(_translate("UserWindow", "Фото не загружено"))
-        self.label_4.setText(_translate("UserWindow", "Фото на загружено"))
-        self.pushButton_4.setText(_translate("UserWindow", "Назад"))
-        self.label_2.setText(_translate("UserWindow", " Нобатов И. - ИУ5-14М"))
+        self._translate = QtCore.QCoreApplication.translate
+        UserWindow.setWindowTitle(self._translate("UserWindow", "Form"))
+        self.pushButton.setText(self._translate("UserWindow", "СОЕДИНЕНИЕ С СЕРВЕРОМ"))
+        self.pushButton_2.setText(self._translate("UserWindow", "ОТПРАВИТЬ ЗАПРОС"))
+        self.pushButton_3.setText(self._translate("UserWindow", "Выбарть файл"))
+        self.label.setText(self._translate("UserWindow", "Файл не выбран"))
+        self.label_3.setText(self._translate("UserWindow", "Фото не загружено"))
+        self.label_4.setText(self._translate("UserWindow", "Фото на загружено"))
+        self.pushButton_4.setText(self._translate("UserWindow", "Назад"))
+        self.label_2.setText(self._translate("UserWindow", " Нобатов И. - ИУ5-14М"))
 
     def button_functions_U (self):
         self.pushButton.clicked.connect(lambda: self.connection())
@@ -136,26 +141,38 @@ class Ui_UserWindow(object):
         self.pushButton_4.clicked.connect(lambda: self.back())
 
     def connection(self):
-        print('connect')
+        try:
+            from clientnet import Client
+            self.client = Client()
+            self.client.Connection()
+
+        except:
+            print('connection error')
 
     def addfile(self):
-        print('addfile')
+        try:
+            self.ph_path = QtWidgets.QFileDialog.getOpenFileName()[0]
+            self.label.setText(self.ph_path)
+        except:
+            print ('error addfile')
 
     def back(self):
-        from main import Ui_MainWindow
-        self.userwind.close()
-        self.MainWindow = QtWidgets.QMainWindow()
-        self.ui = Ui_MainWindow()
-        self.ui.setupUi(self.MainWindow)
-        self.MainWindow.show()
+        try:
+            from main import Ui_MainWindow
+            self.userwind.close()
+            self.MainWindow = QtWidgets.QMainWindow()
+            self.ui = Ui_MainWindow()
+            self.ui.setupUi(self.MainWindow)
+            self.MainWindow.show()
+        except:
+            print('error addfile')
+
 
     def accessrequest(self):
-        print('access')
-# if __name__ == "__main__":
-#     import sys
-#     app = QtWidgets.QApplication(sys.argv)
-#     UserWindow = QtWidgets.QWidget()
-#     ui = Ui_UserWindow()
-#     ui.setupUi(UserWindow)
-#     UserWindow.show()
-#     sys.exit(app.exec_())
+        try:
+            self.client.SendPhoto(self.ph_path)
+            self.client.SendMethod("Access")
+            self.ph_path = None
+            self.label.setText("Файл не выбран")
+        except:
+            print ('error accessrequest')
