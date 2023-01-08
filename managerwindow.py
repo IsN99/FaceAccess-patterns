@@ -3,7 +3,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 class Ui_Form(object):
 
-    def setupUi(self, Form):
+    def setupUi(self, Form, publicclient, mainwindow):
         self.Form = Form
         Form.setObjectName("Form")
         Form.resize(750, 340)
@@ -143,7 +143,7 @@ class Ui_Form(object):
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
 
-        self.MainWindow = None
+        self.MainWindow = mainwindow
         self.ui = None
         self.ph_path = None
 
@@ -151,10 +151,11 @@ class Ui_Form(object):
 
         self.button_functions_M()
 
+        self.client = publicclient
 
-        self.lineEdit_4.setText('4')
-        self.lineEdit_5.setText('5')
-        self.lineEdit_8.setText('8')
+        # self.lineEdit_4.setText('4')
+        # self.lineEdit_5.setText('5')
+        # self.lineEdit_8.setText('8')
 
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
@@ -181,18 +182,22 @@ class Ui_Form(object):
         self.pushButton_5.clicked.connect(lambda: self.addfile())
         self.pushButton_6.clicked.connect(lambda: self.addfile())
         self.pushButton_7.clicked.connect(lambda: self.connection())
+
     def back(self):
         from main import Ui_MainWindow
         self.Form.close()
-        self.MainWindow = QtWidgets.QMainWindow()
-        self.ui = Ui_MainWindow()
-        self.ui.setupUi(self.MainWindow)
+        # self.MainWindow = QtWidgets.QMainWindow()
+        # self.ui = Ui_MainWindow()
+        # self.ui.setupUi(self.MainWindow)
         self.MainWindow.show()
 
     def ad (self):
         try:
             self.client.SendPhoto(self.ph_path)
+            self.client.WaitForNext()
+
             self.client.SendFIO(self.lineEdit.text())
+            self.client.WaitForNext()
 
             self.client.SendMethod("Add")
 
@@ -201,10 +206,29 @@ class Ui_Form(object):
             print('ad error')
 
     def ch (self):
-        pass
+        try:
+            self.client.SendPhoto(self.ph_path)
+            self.client.WaitForNext()
+
+            self.client.SendFIO(self.lineEdit_5.text())
+            self.client.WaitForNext()
+
+            self.client.SendId(self.lineEdit_4.text())
+            self.client.WaitForNext()
+
+            self.client.SendMethod("Change")
+
+            self.ph_path = None
+        except:
+            print('ch error')
 
     def dl (self):
-        pass
+        try:
+            self.client.SendId(self.lineEdit_8.text())
+            self.client.WaitForNext()
+            self.client.SendMethod("Delete")
+        except:
+            print('dl error')
     
     def addfile(self):
         try:
@@ -217,8 +241,6 @@ class Ui_Form(object):
 
     def connection(self):
         try:
-            from clientnet import Client
-            self.client = Client()
             self.client.Connection()
 
         except:

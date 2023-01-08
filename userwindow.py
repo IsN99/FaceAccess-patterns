@@ -13,7 +13,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 
 class Ui_UserWindow(object):
-    def setupUi(self, UserWindow):
+    def setupUi(self, UserWindow, publicclient, mainwindow):
         self.userwind = UserWindow
         UserWindow.setObjectName("UserWindow")
         UserWindow.resize(330, 390)
@@ -113,14 +113,14 @@ class Ui_UserWindow(object):
         QtCore.QMetaObject.connectSlotsByName(UserWindow)
 
 
-        self.MainWindow = None
+        self.MainWindow = mainwindow
         self.ui = None
 
         self.button_functions_U()
         self._translate = None
         self.ph_path = None
 
-        self.client = None
+        self.client = publicclient
 
     def retranslateUi(self, UserWindow):
         self._translate = QtCore.QCoreApplication.translate
@@ -142,8 +142,6 @@ class Ui_UserWindow(object):
 
     def connection(self):
         try:
-            from clientnet import Client
-            self.client = Client()
             self.client.Connection()
 
         except:
@@ -160,18 +158,19 @@ class Ui_UserWindow(object):
         try:
             from main import Ui_MainWindow
             self.userwind.close()
-            self.MainWindow = QtWidgets.QMainWindow()
-            self.ui = Ui_MainWindow()
-            self.ui.setupUi(self.MainWindow)
+            # self.MainWindow = QtWidgets.QMainWindow()
+            # self.ui = Ui_MainWindow()
+            # self.ui.setupUi(self.MainWindow)
             self.MainWindow.show()
-        except:
-            print('error addfile')
 
+        except:
+            print('error back')
 
     def accessrequest(self):
         try:
             self.client.SendPhoto(self.ph_path)
-            self.client.SendMethod("Access")
+            self.client.WaitForNext()
+            self.client.SendMethod('Access')
             self.ph_path = None
             self.label.setText("Файл не выбран")
         except:

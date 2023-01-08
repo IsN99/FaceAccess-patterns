@@ -57,6 +57,8 @@ class Ui_MainWindow(object):
         self.managewind = None
         self.ManagerWindow = None
 
+        from clientnet import Client
+        self.client = Client()
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -74,7 +76,7 @@ class Ui_MainWindow(object):
         self.MainWindow.close()
         self.UserWindow = QtWidgets.QWidget()
         self.userwind = Ui_UserWindow()
-        self.userwind.setupUi(self.UserWindow)
+        self.userwind.setupUi(self.UserWindow, self.client, self.MainWindow)
         self.UserWindow.show()
 
 
@@ -83,7 +85,7 @@ class Ui_MainWindow(object):
         self.MainWindow.close()
         self.ManagerWindow = QtWidgets.QWidget()
         self.managewind = Ui_Form()
-        self.managewind.setupUi(self.ManagerWindow)
+        self.managewind.setupUi(self.ManagerWindow, self.client, self.MainWindow)
         self.ManagerWindow.show()
 
 
