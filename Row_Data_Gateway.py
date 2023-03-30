@@ -1,9 +1,10 @@
-import psycopg
+import psycopg2
+
 
 # Empl_RDG
 
 class Empl_RDG:
-    conn = psycopg.connect(host="localhost", database="mydatabase", user="myusername", password="mypassword")
+    conn = psycopg2.connect(host="localhost", database="trpo_db", user="root", password="root")
 
     def __init__(self, id=None, name=None, photo_path=None):
         self.id = id
@@ -46,7 +47,7 @@ class Empl_RDG:
 # Checkpoint_RDG
 
 class Checkpoint_RDG:
-    conn = psycopg.connect(host="localhost", database="mydatabase", user="myusername", password="mypassword")
+    conn = psycopg2.connect(host="localhost", database="trpo_db", user="root", password="root")
 
     def __init__(self, id=None, access_zone=None):
         self.id = id
@@ -86,7 +87,7 @@ class Checkpoint_RDG:
 # Request_RDG
 
 class Request_RDG:
-    conn = psycopg.connect(host="localhost", database="mydatabase", user="myusername", password="mypassword")
+    conn = psycopg2.connect(host="localhost", database="trpo_db", user="root", password="root")
 
     def __init__(self, id=None, date=None, result=None, image_path=None, checkpoint_id=None, employee_id=None):
         self.id = id
