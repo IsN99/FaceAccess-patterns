@@ -49,7 +49,7 @@ class Employees_TM:
             state = self.gateway.get(id=id)[0]
             self.buffer.save_state(id, state)
             employee.update()
-        except():
+        except Exception as e:
             "Sorry"
 
     def delete_employee(self, id):
@@ -58,7 +58,7 @@ class Employees_TM:
             state = self.gateway.get(id=id)[0]
             self.buffer.save_state(id, state)
             employee.delete()
-        except():
+        except Exception as e:
             "Sorry"
 
     def restore(self, id):
