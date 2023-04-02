@@ -2,4 +2,4 @@
 PyQt version
 Курсовая по ТРПО (питон).
 
-
+Complete.
