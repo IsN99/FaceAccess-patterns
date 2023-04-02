@@ -6,6 +6,9 @@ from User import User
 from Manager import Manager
 import datetime
 
+user = User()
+manager = Manager()
+
 class MyHandler(http.server.BaseHTTPRequestHandler):
     
     def do_POST(self):
@@ -22,7 +25,7 @@ class MyHandler(http.server.BaseHTTPRequestHandler):
             with open(image_path, 'wb') as f:
                 f.write(image_data)
             
-            result_path = User().Access_Request(image_path) 
+            result_path = user.Access_Request(image_path) 
             if result_path:        
                 with open(result_path, 'rb') as f:
                     image_result = f.read()            
@@ -40,7 +43,7 @@ class MyHandler(http.server.BaseHTTPRequestHandler):
                 self.wfile.write(json.dumps(response).encode())
 
         elif data['method'] == 'Manager_History':
-            history = Manager().get_history()
+            history = manager.get_history()
 
             # Отправляем ответ 
             response = {'history': history}
@@ -50,7 +53,7 @@ class MyHandler(http.server.BaseHTTPRequestHandler):
             self.wfile.write(json.dumps(response).encode())
 
         elif data['method'] == 'Manager_Empls':
-            empls = Manager().get_empls()
+            empls = manager.get_empls()
 
             # Отправляем ответ 
             response = {'empls': empls}
@@ -66,7 +69,7 @@ class MyHandler(http.server.BaseHTTPRequestHandler):
             with open(photo_path, 'wb') as f:
                 f.write(photo_data)
 
-            Manager().create(name, photo_path)
+            manager.create(name, photo_path)
 
             # Отправляем ответ 
             response = {'result': 'Success'}
@@ -83,7 +86,7 @@ class MyHandler(http.server.BaseHTTPRequestHandler):
             with open(photo_path, 'wb') as f:
                 f.write(photo_data)
 
-            Manager().update(id, name, photo_path)
+            manager.update(id, name, photo_path)
 
             # Отправляем ответ 
             response = {'result': 'Success'}
@@ -95,7 +98,7 @@ class MyHandler(http.server.BaseHTTPRequestHandler):
         elif data['method'] == 'Manager_Delete':
             id = data['id']
 
-            Manager().delete(id)
+            manager.delete(id)
 
             # Отправляем ответ 
             response = {'result': 'Success'}
@@ -108,7 +111,7 @@ class MyHandler(http.server.BaseHTTPRequestHandler):
             
             id = data['id']
             
-            Manager().restore(id)
+            manager.restore(id)
             
             response = {'result': 'Success'}
             self.send_response(200)

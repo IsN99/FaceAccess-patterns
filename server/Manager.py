@@ -24,7 +24,8 @@ class Manager():
         checkpoint_ = [checkpoint.__dict__ for checkpoint in checkpoints]
 
         requests = self.request_list.get_all_requests()
-        request_ = [request.__dict__ for request in requests]
+        request_ = [{**request.__dict__, 'date': request.date.strftime('%Y-%m-%d %H:%M:%S')} for request in requests]
+
 
         history = merge_dicts_by_key(request_, employee_, 'employee_id', 'id')
         history = merge_dicts_by_key(history, checkpoint_, 'checkpoint_id', 'id')

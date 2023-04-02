@@ -1,8 +1,5 @@
 import psycopg2
 
-
-# Empl_RDG
-
 class Empl_RDG:
     conn = psycopg2.connect(host="localhost", database="trpo_db", user="root", password="root")
 

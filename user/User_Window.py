@@ -1,6 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-import Client_User
-import threading
+import Client_User as Client_User
 
 class Ui_Form(object):
     def setupUi(self, Form):     
