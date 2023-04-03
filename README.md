@@ -1,7 +1,8 @@
 # PyQt-vesion-faceaccess-app
-PyQt version/n/n
+PyQt version
 
-Реализация курсовой по паттернам и RUP в Python:/n
+Реализация курсовой по паттернам и RUP в Python:
+
 -Паттерн шлюза БД - row data gateway
 -Паттерн бизнес-логики - table module 
 (в данном случае предоставляет более высокоуровневый интерфейс для предыдущего паттерна)
