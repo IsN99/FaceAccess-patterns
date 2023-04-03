@@ -1,7 +1,7 @@
-# PyQt-vesion-faceaccess-app
-PyQt version
+# FaceAcces system
 
 Реализация курсовой по паттернам и RUP в Python:
+Работающий макет системы доступа с распознанием лица
 
 -Паттерн шлюза БД - row data gateway
 -Паттерн бизнес-логики - table module 
